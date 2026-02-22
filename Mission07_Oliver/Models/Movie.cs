@@ -9,9 +9,9 @@ namespace Mission07_Oliver.Models
         [Key]
         [Required]
         public int MovieId { get; set; }
-        [ForeignKey("CategoryId")]
         public int? CategoryId { get; set; }
-        public Category? CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category? Category { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
