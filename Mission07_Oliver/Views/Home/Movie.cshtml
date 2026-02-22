@@ -1,48 +1,136 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Mission07_Oliver.Models.Movie
 @{
+    ViewData["Title"] = Model.MovieId == 0 ? "Add Movie" : "Edit Movie";
 }
-@model Movie
 
-<h1>Submit a Movie</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">@ViewData["Title"]</h5>
+            <a asp-action="MovieList" class="btn btn-sm btn-outline-light">Back to list</a>
+        </div>
 
-<form method="post">
-    <input type="hidden" asp-for="MovieId" />
+        <div class="card-body">
+            <form asp-action="Save" method="post" class="needs-validation" novalidate>
+                @* Anti-forgery *@
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-    <label asp-for="Title">Title: </label>
-    <input type="text" asp-for="Title" />
-    <br />
-    <label asp-for="Director">Director: </label>
-    <input type="text" asp-for="Director" />
-    <br />
-    <label asp-for="Year">Year: </label>
-    <input type="number" asp-for="Year" />
-    <br />
-    <select asp-for="CategoryId">
-        <option value="">Select a Category</option>
-        @foreach (Category c in ViewBag.Categories)
-        {
-            <option value="@c.CategoryId">@c.CategoryName</option>
-        }
-    </select>
-    <br />
-    <label asp-for="Rating">Rating: </label>
-    <input type="text" asp-for="Rating" />
-    <br />
-    <label asp-for="Edited">Edited: </label>
-    <input type="checkbox" asp-for="Edited" />
-    <br />
-    <label asp-for="LentTo">Lent To: </label>
-    <input type="text" asp-for="LentTo" />
-    <br />
-    <label asp-for="CopiedToPlex">Copied To Plex: </label>
-    <input type="checkbox" asp-for="CopiedToPlex" />
-    <br />
-    <label asp-for="Notes">Notes: </label>
-    <input type="text" asp-for="Notes" />
-    <br />
-    <button type="submit">Submit Movie</button>
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <div class="form-floating">
+                            <input asp-for="Title" class="form-control" placeholder="Title" />
+                            <label asp-for="Title">Title</label>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
 
-    <div asp-validation-summary="All"></div>
-</form>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input asp-for="Year" type="number" class="form-control" placeholder="Year" />
+                            <label asp-for="Year">Year</label>
+                            <span asp-validation-for="Year" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="Director" class="form-control" placeholder="Director" />
+                            <label asp-for="Director">Director</label>
+                            <span asp-validation-for="Director" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <select asp-for="CategoryId" class="form-select">
+                                <option value="">Choose category</option>
+                                @foreach (var c in ViewBag.Categories)
+                                {
+                                    <option value="@c.CategoryId">@c.CategoryName</option>
+                                }
+                            </select>
+                            <label asp-for="CategoryId">Category</label>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input asp-for="Rating" class="form-control" placeholder="Rating" />
+                            <label asp-for="Rating">Rating</label>
+                            <span asp-validation-for="Rating" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check form-switch mt-3">
+                            <input asp-for="Edited" class="form-check-input" type="checkbox" />
+                            <label class="form-check-label" asp-for="Edited">Edited</label>
+                            <span asp-validation-for="Edited" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check form-switch mt-3">
+                            <input asp-for="CopiedToPlex" class="form-check-input" type="checkbox" />
+                            <label class="form-check-label" asp-for="CopiedToPlex">Copied to Plex</label>
+                            <span asp-validation-for="CopiedToPlex" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <textarea asp-for="Notes" class="form-control" style="height:120px" placeholder="Notes"></textarea>
+                            <label asp-for="Notes">Notes</label>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-floating w-100">
+                            <input asp-for="LentTo" class="form-control" placeholder="Lent To" />
+                            <label asp-for="LentTo">Lent To</label>
+                            <span asp-validation-for="LentTo" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @* Hidden field for MovieId (so Save knows if it is edit) *@
+                    <input type="hidden" asp-for="MovieId" />
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">@((Model.MovieId == 0) ? "Create" : "Save")</button>
+                    <a asp-action="MovieList" class="btn btn-secondary">Cancel</a>
+
+                    @if (Model.MovieId != 0)
+                    {
+                        <a asp-action="Delete" asp-route-id="@Model.MovieId" class="btn btn-danger ms-auto">Delete</a>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // client-side bootstrap validation (optional but nice)
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}
