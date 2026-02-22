@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mission07_Oliver.Models;
 using System.Diagnostics;
 
@@ -45,7 +46,10 @@ namespace Mission07_Oliver.Controllers
         public IActionResult MovieList()
         {
             var movies = _context.Movies
-                .OrderBy(s => s.Title).ToList();
+                .Include(m => m.Category)              // <<< load related category data
+                .OrderBy(s => s.Title)
+                .ToList();
+
             return View(movies);
         }
 

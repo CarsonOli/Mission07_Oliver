@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission07_Oliver")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f6925f61aefa016e37fa31f46a96632a09f2d6d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78ecb676ed342f388081472ed4f14aa7c0f38805")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission07_Oliver")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission07_Oliver")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

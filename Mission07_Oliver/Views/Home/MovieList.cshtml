@@ -28,7 +28,7 @@
                 <td>@movie.Title</td>
                 <td>@movie.Director</td>
                 <td>@movie.Year</td>
-                <td>@movie.Category</td>
+                <td>@(movie.Category?.CategoryName ?? "—")</td>
                 <td>@movie.Rating</td>
                 <td>@movie.Edited</td>
                 <td>@movie.LentTo</td>
